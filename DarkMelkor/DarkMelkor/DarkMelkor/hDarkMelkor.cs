@@ -174,14 +174,6 @@ namespace DarkMelkor
                     Console.SetError(stdErrWriter);
                     var result = asm.EntryPoint.Invoke(null, new object[] { args });
 
-                    if (str == "second")
-                    {
-                        Console.Out.Flush();
-                        Console.Error.Flush();
-                        Console.SetOut(realStdOut);
-                        Console.SetError(realStdErr);
-                    }
-
                     output = stdOutWriter.ToString();
                     output += stdErrWriter.ToString();
                 }
