@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 using System.IO;
 
 namespace DarkMelkor
 {
     class Program
     {
-        public static void runTest()
+        public static void runTest(string run)
         {
             // Encrypt module
             //==============
             Console.WriteLine("[>] Reading assembly as Byte[]");
-            Byte[] bMod = File.ReadAllBytes(@"C:\Users\tmayllart\Downloads\DarkMelkor\demoModule\demoModule\bin\Debug\demoModule.exe");//change it wth the path of the compiled demoModule
+            Byte[] bMod = File.ReadAllBytes(@"C:\Users\Thiago Mayllart\Downloads\Sharp-Suite-master2\Sharp-Suite-master\Melkor\demoModule\demoModule\bin\Debug\demoModule.exe");//change it wth the path of the compiled demoModule
             Console.WriteLine("[>] DPAPI CryptProtectData -> assembly[]");
             DarkMelkor.DPAPI_MODULE dpMod = DarkMelkor.dpapiEncryptModule(bMod, "Melkor", 0);
             if (dpMod.pMod != IntPtr.Zero)
@@ -43,7 +43,7 @@ namespace DarkMelkor
             AppDomain oAngband = null;
             try
             {
-                oAngband = DarkMelkor.loadAppDomainModule("dothething", "Angband", oMod.bMod);
+                oAngband = DarkMelkor.loadAppDomainModule("dothething", "Angband", oMod.bMod, run);
             }
             catch (Exception ex)
             {
@@ -63,7 +63,8 @@ namespace DarkMelkor
 
         static void Main(string[] args)
         {
-            runTest();
+            runTest("first");
+            runTest("second");
         }
     }
 }
