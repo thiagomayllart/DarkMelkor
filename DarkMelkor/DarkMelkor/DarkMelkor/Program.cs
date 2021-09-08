@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 
 namespace DarkMelkor
 {
@@ -63,8 +64,10 @@ namespace DarkMelkor
 
         static void Main(string[] args)
         {
-            runTest("first");
-            runTest("second");
+            Thread thread = new Thread(() => runTest("first"));
+            Thread thread2 = new Thread(() => runTest("second"));
+            thread.Start();
+            thread2.Start();
         }
     }
 }
